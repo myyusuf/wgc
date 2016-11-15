@@ -1,9 +1,9 @@
 // config/database.js
 module.exports = {
         'mysqlConnectionData' : {
-        host: 'localhost',
-        user: 'root',
-        password: 'hellopower11',
-        database: 'next_ceu_db'
+        host: '128.199.89.79',
+        user: 'wgcircle',
+        password: 'mypower11',
+        database: 'wgcircle'
     }
 };
