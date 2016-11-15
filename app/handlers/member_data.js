@@ -1,6 +1,6 @@
 exports.list = function(req, res, db) {
 
-  var query = "SELECT * FROM tb_siswa  ";
+  var query = "SELECT * FROM tb_member ";
 
   db.query(
     query, [],
