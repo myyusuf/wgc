@@ -15,7 +15,7 @@ exports.list = function(req, res, db) {
     var startIndex = parseInt(startIndexStr);
     var limit = parseInt(limitStr);
 
-    var query = "SELECT * FROM customer WHERE first_name  LIKE ? ORDER BY first_name LIMIT ?,? ";
+    var query = "SELECT * FROM customer WHERE first_name LIKE ? ORDER BY first_name LIMIT ?,? ";
 
     db.query(
       query, [nameLike, startIndex, limit],
