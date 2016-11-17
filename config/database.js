@@ -2,7 +2,7 @@
 module.exports = {
         'mysqlConnectionData' : {
         host: '128.199.89.79',
-        user: 'wgcircle',
+        user: 'wgcircleuser',
         password: 'mypower11',
         database: 'wgcircle'
     }

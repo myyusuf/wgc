@@ -1,13 +1,39 @@
 exports.list = function(req, res, db) {
 
-  var query = "SELECT * FROM tb_member ";
+  var startIndexStr = req.query.startIndex;
+  var limitStr = req.query.limit;
+  var nameLike = req.query.nameLike;
 
-  db.query(
-    query, [],
-    function(err, rows) {
-      if (err) throw err;
-      res.json(rows);
-    }
-  );
+  if(nameLike == undefined){
+    nameLike = "%%"
+  }else{
+    nameLike = "%" + nameLike + "%"
+  }
+
+  if((startIndexStr != undefined && startIndexStr != '') && (limitStr != undefined && limitStr != '')){
+
+    var startIndex = parseInt(startIndexStr);
+    var limit = parseInt(limitStr);
+
+    var query = "SELECT * FROM member WHERE first_name LIKE ? ORDER BY first_name LIMIT ?,? ";
+
+    db.query(
+      query, [nameLike, startIndex, limit],
+      function(err, rows) {
+        if (err) throw err;
+        res.json(rows);
+      }
+    );
+  }else{
+    var query = "SELECT * FROM member WHERE first_name LIKE ? ORDER BY first_name ";
+
+    db.query(
+      query, [nameLike],
+      function(err, rows) {
+        if (err) throw err;
+        res.json(rows);
+      }
+    );
+  }
 
 };
