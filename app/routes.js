@@ -13,7 +13,7 @@ module.exports = function(app, passport, db) {
   });
 
   app.get('/customers', function(req, res) {
-    memberData.list(req, res, db);
+    customerData.list(req, res, db);
   });
 
 };
