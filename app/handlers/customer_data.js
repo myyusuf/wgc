@@ -35,5 +35,13 @@ exports.list = function(req, res, db) {
       }
     );
   }
+};
+
+exports.upload = function(req, res, db) {
+
+  var keys = Object.keys(req.body);
+  console.log(keys);
+  console.log("file : " + req.file.path);
+  res.json({result: "ok"});
 
 };
