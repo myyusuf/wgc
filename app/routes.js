@@ -1,5 +1,6 @@
 
 var memberData = require('./handlers/member_data.js');
+var customerData = require('./handlers/customer_data.js');
 
 module.exports = function(app, passport, db) {
 
@@ -8,6 +9,10 @@ module.exports = function(app, passport, db) {
   });
 
   app.get('/members', function(req, res) {
+    memberData.list(req, res, db);
+  });
+
+  app.get('/customers', function(req, res) {
     memberData.list(req, res, db);
   });
 
