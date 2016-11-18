@@ -19,6 +19,9 @@ module.exports = function(app, passport, db) {
   app.get('/customers', function(req, res) {
     customerData.list(req, res, db);
   });
+  app.post('/customers', function(req, res) {
+    customerData.add(req, res, db);
+  });
 
   // app.post('/customers_upload', function(req, res) {
   //   customerData.upload(req, res, db);

@@ -74,6 +74,32 @@ exports.upload = function(req, res, db) {
 
 };
 
+exports.add = function(req, res, db) {
+
+  var tmpCustomer = req.body;
+
+  var customer = {
+    first_name: tmpCustomer.firstName,
+    last_name: tmpCustomer.lastName,
+    id_number: tmpCustomer.idNumber,
+    address: tmpCustomer.address,
+    email: tmpCustomer.email,
+    mobile: tmpCustomer.mobile,
+    landline: tmpCustomer.landline
+  };
+
+  db.query('INSERT INTO customer SET ?', customer, function(err, result){
+    if(err){
+      console.log(err);
+      res.status(500).send('Error while doing operation.');
+    }else{
+      res.json({status: 'INSERT_SUCCESS', lastId: result.insertId});
+    }
+
+  });
+
+};
+
 // var fs = require('fs-extra');
 // var wgconstant = require('../../config/wgconstant.js');
 //
