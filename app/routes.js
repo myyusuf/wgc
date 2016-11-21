@@ -1,7 +1,8 @@
+var WGCConstant = require('../config/wgc_constant.js');
 
 var memberData = require('./handlers/member_data.js');
 var customerData = require('./handlers/customer_data.js');
-var WGCConstant = require('../config/wgc_constant.js');
+var promotionData = require('./handlers/promotion_data.js');
 
 var multer  = require('multer')
 var upload = multer({ dest: WGCConstant.AVATAR_DIRECTORY_PATH })
@@ -21,6 +22,10 @@ module.exports = function(app, passport, db) {
   });
   app.post('/customers', function(req, res) {
     customerData.add(req, res, db);
+  });
+
+  app.get('/promotion', function(req, res) {
+    promotionData.viewImage(req, res, db);
   });
 
   // app.post('/customers_upload', function(req, res) {

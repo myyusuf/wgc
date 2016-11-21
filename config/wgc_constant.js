@@ -1,5 +1,6 @@
 module.exports = {
 
-	'AVATAR_DIRECTORY_PATH' : '/Users/myyusuf/Documents/Test/upload_file/avatar/'
-	
+	'AVATAR_DIRECTORY_PATH' : '/Users/myyusuf/Documents/Test/upload_file/avatar/',
+	'PROMOTION_DIRECTORY_PATH' : '/Users/myyusuf/Documents/Test/wgcircle_data/promotion_images/'
+
 };
