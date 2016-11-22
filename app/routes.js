@@ -33,6 +33,10 @@ module.exports = function(app, passport, db) {
     productData.list(req, res, db);
   });
 
+  app.get('/products/:productCode/images/:imageCode/temp', function(req, res) {
+    productData.viewImage(req, res, db);
+  });
+
   // app.post('/customers_upload', function(req, res) {
   //   customerData.upload(req, res, db);
   // });
