@@ -17,6 +17,45 @@ exports.list = function(req, res, db) {
 
 };
 
+exports.unitList = function(req, res, db) {
+
+  var startIndexStr = req.query.startIndex;
+  var limitStr = req.query.limit;
+  var projectCode = req.query.projectCode;
+  var priceFromStr = req.query.priceFrom;
+  var priceToStr = req.query.priceTo;
+  var roomsCountStr = req.query.roomsCount;
+
+  var priceFrom = parseInt(priceFromStr);;
+  var priceTo = parseInt(priceToStr);
+  var roomsCount = parseInt(roomsCountStr);;
+
+  var startIndex = parseInt(startIndexStr);
+  var limit = parseInt(limitStr);
+
+  if(roomsCount != 99){
+    var query = "SELECT * FROM unit WHERE price >= ? AND price <= ? and rooms = ? LIMIT ?,? ";
+
+    db.query(
+      query, [priceFrom, priceTo, roomsCount, startIndex, limit],
+      function(err, rows) {
+        if (err) throw err;
+        res.json(rows);
+      }
+    );
+  }else{
+    var query = "SELECT * FROM unit WHERE price >= ? AND price <= ? LIMIT ?,? ";
+
+    db.query(
+      query, [priceFrom, priceTo, startIndex, limit],
+      function(err, rows) {
+        if (err) throw err;
+        res.json(rows);
+      }
+    );
+  }
+};
+
 exports.viewImage = function (req, res) {
 
     var _productCode = req.params.productCode;

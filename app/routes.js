@@ -38,6 +38,10 @@ module.exports = function(app, passport, db) {
     productData.viewImage(req, res, db);
   });
 
+  app.get('/products/:productCode/units', function(req, res) {
+    productData.unitList(req, res, db);
+  });
+
   // app.post('/customers_upload', function(req, res) {
   //   customerData.upload(req, res, db);
   // });
