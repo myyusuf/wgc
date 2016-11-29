@@ -5,6 +5,7 @@ var customerData = require('./handlers/customer_data.js');
 var promotionData = require('./handlers/promotion_data.js');
 var productData = require('./handlers/product_data.js');
 var unitData = require('./handlers/unit_data.js');
+var newsData = require('./handlers/news_data.js');
 
 var multer  = require('multer')
 var upload = multer({ dest: WGCConstant.AVATAR_DIRECTORY_PATH })
@@ -52,6 +53,13 @@ module.exports = function(app, passport, db) {
 
   app.post('/customers_upload', upload.single('photo'), function (req, res, next) {
     customerData.upload(req, res, db);
+  });
+
+  app.get('/news', function(req, res) {
+    newsData.list(req, res, db);
+  });
+  app.get('/news/images/:imageCode/temp', function(req, res) {
+    newsData.viewImage(req, res, db);
   });
 
 };
