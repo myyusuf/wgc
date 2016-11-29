@@ -1,3 +1,8 @@
+var WGCConstant = require('../../config/wgc_constant.js');
+
+var fs = require('fs-extra');
+var path = require('path');
+
 exports.list = function(req, res, db) {
 
   var query = "SELECT * FROM news ";
