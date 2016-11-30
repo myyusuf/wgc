@@ -100,6 +100,30 @@ exports.add = function(req, res, db) {
 
 };
 
+exports.unitList = function(req, res, db) {
+
+  var startIndexStr = req.query.startIndex;
+  var limitStr = req.query.limit;
+  var registrationNumber = req.query.registrationNumber;
+
+  var startIndex = parseInt(startIndexStr);
+  var limit = parseInt(limitStr);
+
+
+  var query = "SELECT u.* FROM customer_unit cu " +
+            "LEFT JOIN customer c on ((cu.id = c.id) and (c.registration_number = ?)) " +
+            "LEFT JOIN unit u on cu.unit_id = u.id; LIMIT ?,? ";
+
+  db.query(
+    query, [registrationNumber, startIndex, limit],
+    function(err, rows) {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
+
+};
+
 // var fs = require('fs-extra');
 // var wgconstant = require('../../config/wgconstant.js');
 //

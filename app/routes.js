@@ -27,6 +27,10 @@ module.exports = function(app, passport, db) {
     customerData.add(req, res, db);
   });
 
+  app.get('/customers/:registrationNumber/units', function(req, res) {
+    customerData.unitList(req, res, db);
+  });
+
   app.get('/promotion', function(req, res) {
     promotionData.viewImage(req, res, db);
   });
