@@ -102,23 +102,56 @@ exports.add = function(req, res, db) {
 
 exports.unitList = function(req, res, db) {
 
+  // var startIndexStr = req.query.startIndex;
+  // var limitStr = req.query.limit;
+  // var registrationNumber = req.params.registrationNumber;
+  //
+  // var startIndex = parseInt(startIndexStr);
+  // var limit = parseInt(limitStr);
+  //
+  //
+  // var query = "SELECT u.* FROM customer_unit cu " +
+  //           "LEFT JOIN customer c ON ((cu.customer_id = c.id) AND (c.registration_number = ?)) " +
+  //           "LEFT JOIN unit u ON cu.unit_id = u.id LIMIT ?,? ";
+  //
+  // db.query(
+  //   query, [registrationNumber, startIndex, limit],
+  //   function(err, rows) {
+  //     if (err) throw err;
+  //     res.json(rows);
+  //   }
+  // );
+
   var startIndexStr = req.query.startIndex;
   var limitStr = req.query.limit;
-  var registrationNumber = req.params.registrationNumber;
+  var registrationNumber = req.params.registrationNumber + '';
 
   var startIndex = parseInt(startIndexStr);
   var limit = parseInt(limitStr);
 
-
-  var query = "SELECT u.* FROM customer_unit cu " +
-            "LEFT JOIN customer c on ((cu.id = c.id) and (c.registration_number = ?)) " +
-            "LEFT JOIN unit u on cu.unit_id = u.id LIMIT ?,? ";
+  var query = "SELECT * FROM customer WHERE registration_number = ? ";
 
   db.query(
-    query, [registrationNumber, startIndex, limit],
+    query, [registrationNumber],
     function(err, rows) {
       if (err) throw err;
-      res.json(rows);
+
+      console.log(registrationNumber);
+       var row = rows[0];
+       var customerId = row['id'];
+
+       var query = "SELECT u.* FROM unit u " +
+                 "LEFT JOIN customer_unit cu ON cu.unit_id = u.id " +
+                 "WHERE cu.customer_id = ? " +
+                 "LIMIT ?,? ";
+
+       db.query(
+         query, [customerId, startIndex, limit],
+         function(err, rows) {
+           if (err) throw err;
+           res.json(rows);
+         }
+       );
     }
   );
 
