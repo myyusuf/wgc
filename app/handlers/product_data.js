@@ -19,41 +19,18 @@ exports.list = function(req, res, db) {
 
 exports.unitList = function(req, res, db) {
 
-  var startIndexStr = req.query.startIndex;
-  var limitStr = req.query.limit;
-  var projectCode = req.query.projectCode;
-  var priceFromStr = req.query.priceFrom;
-  var priceToStr = req.query.priceTo;
-  var roomsCountStr = req.query.roomsCount;
+  var productCode = req.params.productCode;
 
-  var priceFrom = parseInt(priceFromStr);;
-  var priceTo = parseInt(priceToStr);
-  var roomsCount = parseInt(roomsCountStr);;
 
-  var startIndex = parseInt(startIndexStr);
-  var limit = parseInt(limitStr);
+  var query = "SELECT u.*, p.code as project_code FROM unit u LEFT JOIN product p on u.product_id = p.id WHERE p.code = ? ";
 
-  if(roomsCount != 99){
-    var query = "SELECT * FROM unit WHERE price >= ? AND price <= ? and rooms = ? LIMIT ?,? ";
-
-    db.query(
-      query, [priceFrom, priceTo, roomsCount, startIndex, limit],
-      function(err, rows) {
-        if (err) throw err;
-        res.json(rows);
-      }
-    );
-  }else{
-    var query = "SELECT * FROM unit WHERE price >= ? AND price <= ? LIMIT ?,? ";
-
-    db.query(
-      query, [priceFrom, priceTo, startIndex, limit],
-      function(err, rows) {
-        if (err) throw err;
-        res.json(rows);
-      }
-    );
-  }
+  db.query(
+    query, [productCode],
+    function(err, rows) {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
 };
 
 exports.viewImage = function (req, res) {
