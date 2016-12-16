@@ -72,7 +72,6 @@ exports.customerList = function(req, res, db) {
        );
     }
   );
-
 };
 
 exports.cityList = function(req, res, db) {
@@ -86,5 +85,17 @@ exports.cityList = function(req, res, db) {
       res.json(rows);
     }
   );
+};
 
+exports.memberGroupList = function(req, res, db) {
+
+  var query = "SELECT * FROM member_group ";
+
+  db.query(
+    query, [],
+    function(err, rows) {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
 };
