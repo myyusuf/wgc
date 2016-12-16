@@ -74,3 +74,17 @@ exports.customerList = function(req, res, db) {
   );
 
 };
+
+exports.cityList = function(req, res, db) {
+
+  var query = "SELECT * FROM city ";
+
+  db.query(
+    query, [],
+    function(err, rows) {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
+
+};

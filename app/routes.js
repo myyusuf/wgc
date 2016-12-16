@@ -23,6 +23,10 @@ module.exports = function(app, passport, db) {
     memberData.customerList(req, res, db);
   });
 
+  app.get('/cities', function(req, res) {
+    memberData.cityList(req, res, db);
+  });
+
   app.get('/customers', function(req, res) {
     customerData.list(req, res, db);
   });
