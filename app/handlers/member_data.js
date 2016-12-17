@@ -38,6 +38,42 @@ exports.list = function(req, res, db) {
 
 };
 
+exports.upload = function(req, res, db) {
+
+  var tmpMember = req.body;
+  var tmpPath = req.file;
+
+  tmpMember.avatarFileName = req.file.filename;
+  tmpMember.avatarFileInformation = JSON.stringify(req.file);
+
+  var member = {
+    first_name: tmpMember.firstName,
+    last_name: tmpMember.lastName,
+    registration_number: tmpMember.registrationNumber,
+    address: tmpMember.address,
+    city_id: tmpMember.cityId,
+    birth_date: new Date(tmpMember.birthDate),
+    username: tmpMember.username,
+    password: tmpMember.password,
+    member_group_id: tmpMember.memberGroupId,
+    email: tmpMember.email,
+    mobile1: tmpMember.mobile1,
+    mobile2: tmpMember.mobile2,
+    avatar_file_name: tmpMember.avatarFileName,
+    avatar_file_information: tmpMember.avatarFileInformation
+  };
+
+  db.query('INSERT INTO member SET ?', member, function(err, result){
+    if(err){
+      console.log(err);
+      res.status(500).send('Error while doing operation.');
+    }else{
+      res.json({status: 'INSERT_SUCCESS', lastId: result.insertId});
+    }
+  });
+
+};
+
 exports.customerList = function(req, res, db) {
 
   var startIndexStr = req.query.startIndex;

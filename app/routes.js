@@ -19,6 +19,9 @@ module.exports = function(app, passport, db) {
   app.get('/members', function(req, res) {
     memberData.list(req, res, db);
   });
+  app.post('/members_upload', upload.single('photo'), function (req, res, next) {
+    memberData.upload(req, res, db);
+  });
   app.get('/members/:registrationNumber/customers', function(req, res) {
     memberData.customerList(req, res, db);
   });
