@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 exports.list = function(req, res, db) {
 
   var startIndexStr = req.query.startIndex;
@@ -46,13 +48,15 @@ exports.upload = function(req, res, db) {
   tmpMember.avatarFileName = req.file.filename;
   tmpMember.avatarFileInformation = JSON.stringify(req.file);
 
+  var birthDate = moment(tmpMember.birthDate, "DD/MM/YYYY");
+
   var member = {
     first_name: tmpMember.firstName,
     last_name: tmpMember.lastName,
     registration_number: tmpMember.registrationNumber,
     address: tmpMember.address,
     city_id: tmpMember.cityId,
-    birth_date: new Date(tmpMember.birthDate),
+    birth_date: birthDate.toDate(),
     username: tmpMember.username,
     password: tmpMember.password,
     member_group_id: tmpMember.memberGroupId,
@@ -66,7 +70,7 @@ exports.upload = function(req, res, db) {
   db.query('INSERT INTO member SET ?', member, function(err, result){
     if(err){
       console.log(err);
-      res.status(500).send('Error while doing operation.');
+      res.status(400).send('Error while doing operation.');
     }else{
       res.json({status: 'INSERT_SUCCESS', lastId: result.insertId});
     }
