@@ -82,19 +82,18 @@ exports.customerList = function(req, res, db) {
 
   var startIndexStr = req.query.startIndex;
   var limitStr = req.query.limit;
-  var registrationNumber = req.params.registrationNumber + '';
+  var username = req.params.username + '';
 
   var startIndex = parseInt(startIndexStr);
   var limit = parseInt(limitStr);
 
-  var query = "SELECT * FROM member WHERE registration_number = ? ";
+  var query = "SELECT * FROM member WHERE username = ? ";
 
   db.query(
-    query, [registrationNumber],
+    query, [username],
     function(err, rows) {
       if (err) throw err;
 
-      console.log(registrationNumber);
        var row = rows[0];
        var memberId = row['id'];
 
