@@ -16,6 +16,10 @@ module.exports = function(app, passport, db) {
     res.json({result: 'OK'});
   });
 
+  app.get('/mobilelogin', passport.authenticate('basic', { session: false }),function(req, res) {
+    memberData.getByUsername(req, res, db);
+  });
+
   app.get('/members', function(req, res) {
     memberData.list(req, res, db);
   });

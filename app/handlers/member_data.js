@@ -114,6 +114,24 @@ exports.customerList = function(req, res, db) {
   );
 };
 
+exports.getByUsername = function(req, res, db) {
+
+  var username = req.user.username;
+
+  var query = "SELECT * FROM member WHERE username = ? ";
+
+  db.query(
+    query, [username],
+    function(err, rows) {
+      if (err) throw err;
+      if (rows.length > 0){
+          var row = rows[0];
+          res.json(row);
+      }
+    }
+  );
+};
+
 exports.cityList = function(req, res, db) {
 
   var query = "SELECT * FROM city ";
