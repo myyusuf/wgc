@@ -82,7 +82,14 @@ exports.customerList = function(req, res, db) {
 
   var startIndexStr = req.query.startIndex;
   var limitStr = req.query.limit;
-  var username = req.params.username + '';
+  var username = req.user.username;
+  var nameLike = req.query.nameLike;
+
+  if(nameLike == undefined){
+    nameLike = "%%"
+  }else{
+    nameLike = "%" + nameLike + "%"
+  }
 
   var startIndex = parseInt(startIndexStr);
   var limit = parseInt(limitStr);
@@ -98,12 +105,12 @@ exports.customerList = function(req, res, db) {
        var memberId = row['id'];
 
        var query = "SELECT c.* FROM customer c " +
-                 "LEFT JOIN member_customer mc ON mc.customer_id = c.id " +
-                 "WHERE mc.member_id = ? " +
+                //  "LEFT JOIN member_customer mc ON mc.customer_id = c.id " +
+                 "WHERE c.member_id = ? and c.first_name like ? " +
                  "LIMIT ?,? ";
 
        db.query(
-         query, [memberId, startIndex, limit],
+         query, [memberId, nameLike, startIndex, limit],
          function(err, rows) {
            if (err) throw err;
            res.json(rows);

@@ -50,7 +50,11 @@ exports.upload = function(req, res, db) {
   // keys = Object.keys(req.file);
   // console.log(JSON.stringify(req.file));
 
+  var memberId = req.user.id
+  console.log("memberId : " + memberId);
+
   var customer = {
+    member_id: memberId,
     first_name: tmpCustomer.firstName,
     last_name: tmpCustomer.lastName,
     id_number: tmpCustomer.idNumber,
@@ -78,7 +82,11 @@ exports.add = function(req, res, db) {
 
   var tmpCustomer = req.body;
 
+  var memberId = req.user.id
+  console.log("memberId : " + memberId);
+
   var customer = {
+    member_id: memberId,
     first_name: tmpCustomer.firstName,
     last_name: tmpCustomer.lastName,
     id_number: tmpCustomer.idNumber,

@@ -37,6 +37,7 @@ module.exports = function(passport, db) {
 
             if (rows.length > 0) {
               var _row = rows[0];
+              _user['id'] = _row.id;
               _user['username'] = _row.username;
               _user['password'] = _row.password;
               _user['firstName'] = _row.first_name;
@@ -73,6 +74,7 @@ module.exports = function(passport, db) {
 
             if (rows.length > 0) {
               var _row = rows[0];
+              _user['id'] = _row.id;
               _user['username'] = _row.username;
               _user['password'] = _row.password;
               _user['firstName'] = _row.first_name;

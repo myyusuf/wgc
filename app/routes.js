@@ -23,10 +23,10 @@ module.exports = function(app, passport, db) {
   app.get('/members', function(req, res) {
     memberData.list(req, res, db);
   });
-  app.post('/members_upload', upload.single('photo'), function (req, res, next) {
+  app.post('/members_upload', passport.authenticate('basic', { session: false }), upload.single('photo'), function (req, res, next) {
     memberData.upload(req, res, db);
   });
-  app.get('/members/:username/customers', function(req, res) {
+  app.get('/members/details/customers', passport.authenticate('basic', { session: false }), function(req, res) {
     memberData.customerList(req, res, db);
   });
 
@@ -41,7 +41,7 @@ module.exports = function(app, passport, db) {
   app.get('/customers', function(req, res) {
     customerData.list(req, res, db);
   });
-  app.post('/customers', function(req, res) {
+  app.post('/customers', passport.authenticate('basic', { session: false }), function(req, res) {
     customerData.add(req, res, db);
   });
 
@@ -73,7 +73,7 @@ module.exports = function(app, passport, db) {
     unitData.list(req, res, db);
   });
 
-  app.post('/customers_upload', upload.single('photo'), function (req, res, next) {
+  app.post('/customers_upload', passport.authenticate('basic', { session: false }), upload.single('photo'), function (req, res, next) {
     customerData.upload(req, res, db);
   });
 
