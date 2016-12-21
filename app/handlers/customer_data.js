@@ -53,29 +53,80 @@ exports.upload = function(req, res, db) {
   var memberId = req.user.id
   console.log("memberId : " + memberId);
 
-  var customer = {
-    member_id: memberId,
-    first_name: tmpCustomer.firstName,
-    last_name: tmpCustomer.lastName,
-    id_number: tmpCustomer.idNumber,
-    address: tmpCustomer.address,
-    email: tmpCustomer.email,
-    mobile: tmpCustomer.mobile,
-    landline: tmpCustomer.landline,
-    avatar_file_name: tmpCustomer.avatarFileName,
-    avatar_file_information: tmpCustomer.avatarFileInformation
-  };
+  var customerId = tmpCustomer.customerId;
 
-  db.query('INSERT INTO customer SET ?', customer, function(err, result){
-    if(err){
-      console.log(err);
-      res.status(500).send('Error while doing operation.');
-    }else{
-      res.json({status: 'INSERT_SUCCESS', lastId: result.insertId});
-    }
+  if(customerId != undefined && customerId != null){
+    var customer = {
+      first_name: tmpCustomer.firstName,
+      last_name: tmpCustomer.lastName,
+      id_number: tmpCustomer.idNumber,
+      address: tmpCustomer.address,
+      email: tmpCustomer.email,
+      mobile1: tmpCustomer.mobile1,
+      mobile2: tmpCustomer.mobile2,
+      avatar_file_name: tmpCustomer.avatarFileName,
+      avatar_file_information: tmpCustomer.avatarFileInformation,
+      action_type: tmpCustomer.actionType
+    };
 
-  });
+    db.query(
+      'UPDATE customer SET first_name = ? ,'+
+      'last_name = ? ,' +
+      'id_number = ? ,' +
+      'address = ? ,' +
+      'email = ? ,' +
+      'mobile1 = ? ,' +
+      'mobile2 = ? ,' +
+      'avatar_file_name = ? ,' +
+      'avatar_file_information = ? ,' +
+      'action_type = ? ' +
+      'WHERE id = ?',
+      [
+        customer.first_name,
+        customer.last_name,
+        customer.id_number,
+        customer.address,
+        customer.email,
+        customer.mobile1,
+        customer.mobile2,
+        customer.avatar_file_name,
+        customer.avatar_file_information,
+        customer.action_type,
+        customerId
+      ],
+      function (err, result) {
+        if(err){
+          res.status(500).send('Error while doing operation.');
+        }else{
+          res.json({status: 'UPDATE_SUCCESS'});
+        }
+      }
+    );
+  }else{
+    var customer = {
+      member_id: memberId,
+      first_name: tmpCustomer.firstName,
+      last_name: tmpCustomer.lastName,
+      id_number: tmpCustomer.idNumber,
+      address: tmpCustomer.address,
+      email: tmpCustomer.email,
+      mobile1: tmpCustomer.mobile1,
+      mobile2: tmpCustomer.mobile2,
+      avatar_file_name: tmpCustomer.avatarFileName,
+      avatar_file_information: tmpCustomer.avatarFileInformation,
+      action_type: tmpCustomer.actionType
+    };
 
+    db.query('INSERT INTO customer SET ?', customer, function(err, result){
+      if(err){
+        console.log(err);
+        res.status(500).send('Error while doing operation.');
+      }else{
+        res.json({status: 'INSERT_SUCCESS', lastId: result.insertId});
+      }
+
+    });
+  }
 };
 
 exports.add = function(req, res, db) {
@@ -92,8 +143,9 @@ exports.add = function(req, res, db) {
     id_number: tmpCustomer.idNumber,
     address: tmpCustomer.address,
     email: tmpCustomer.email,
-    mobile: tmpCustomer.mobile,
-    landline: tmpCustomer.landline
+    mobile1: tmpCustomer.mobile1,
+    mobile2: tmpCustomer.mobile2,
+    action_type: tmpCustomer.actionType
   };
 
   db.query('INSERT INTO customer SET ?', customer, function(err, result){
@@ -106,6 +158,57 @@ exports.add = function(req, res, db) {
 
   });
 
+};
+
+exports.update = function(req, res, db) {
+
+  var customerId = req.params.customerId
+  console.log('customerId : ' + customerId);
+
+
+  var customer = {
+    first_name: req.body.firstName,
+    last_name: req.body.lastName,
+    id_number: req.body.idNumber,
+    address: req.body.address,
+    email: req.body.email,
+    mobile1: req.body.mobile1,
+    mobile2: req.body.mobile2,
+    action_type: req.body.actionType
+  };
+
+  var keys = Object.keys(customer);
+  console.log(keys);
+
+  db.query(
+  'UPDATE customer SET first_name = ? ,'+
+  'last_name = ? ,' +
+  'id_number = ? ,' +
+  'address = ? ,' +
+  'email = ? ,' +
+  'mobile1 = ? ,' +
+  'mobile2 = ? ,' +
+  'action_type = ? ' +
+  'WHERE id = ?',
+  [
+    customer.first_name,
+    customer.last_name,
+    customer.id_number,
+    customer.address,
+    customer.email,
+    customer.mobile1,
+    customer.mobile2,
+    customer.action_type,
+    customerId
+  ],
+  function (err, result) {
+    if(err){
+      console.log(err);
+      res.status(500).send('Error while doing operation.');
+    }else{
+      res.json({status: 'UPDATE_SUCCESS'});
+    }
+  });
 };
 
 exports.unitList = function(req, res, db) {

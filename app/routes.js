@@ -44,6 +44,9 @@ module.exports = function(app, passport, db) {
   app.post('/customers', passport.authenticate('basic', { session: false }), function(req, res) {
     customerData.add(req, res, db);
   });
+  app.put('/customers/:customerId', passport.authenticate('basic', { session: false }), function(req, res) {
+    customerData.update(req, res, db);
+  });
 
   app.get('/customers/:registrationNumber/units', function(req, res) {
     customerData.unitList(req, res, db);
