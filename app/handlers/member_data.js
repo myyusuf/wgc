@@ -104,9 +104,11 @@ exports.customerList = function(req, res, db) {
        var row = rows[0];
        var memberId = row['id'];
 
-       var query = "SELECT c.* FROM customer c " +
+       var query = "SELECT cu.*, c.id AS city_id, c.code AS city_code, c.name AS city_name FROM customer cu " +
                 //  "LEFT JOIN member_customer mc ON mc.customer_id = c.id " +
-                 "WHERE c.member_id = ? and c.first_name like ? " +
+                 "LEFT JOIN city c ON cu.city_id = c.id " + 
+                 "WHERE cu.member_id = ? and cu.first_name like ? " +
+                 "" +
                  "LIMIT ?,? ";
 
        db.query(

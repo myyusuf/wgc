@@ -15,7 +15,8 @@ exports.list = function(req, res, db) {
     var startIndex = parseInt(startIndexStr);
     var limit = parseInt(limitStr);
 
-    var query = "SELECT * FROM customer WHERE first_name LIKE ? ORDER BY first_name LIMIT ?,? ";
+    var query = "SELECT cu.*, c.id AS city_id, c.code AS city_code, c.name AS city_name " +
+    "FROM customer cu LEFT JOIN city c ON cu.city_id = c.id WHERE first_name LIKE ? ORDER BY first_name LIMIT ?,? ";
 
     db.query(
       query, [nameLike, startIndex, limit],
@@ -61,6 +62,7 @@ exports.upload = function(req, res, db) {
       last_name: tmpCustomer.lastName,
       id_number: tmpCustomer.idNumber,
       address: tmpCustomer.address,
+      city_id: tmpCustomer.cityId,
       email: tmpCustomer.email,
       mobile1: tmpCustomer.mobile1,
       mobile2: tmpCustomer.mobile2,
@@ -74,6 +76,7 @@ exports.upload = function(req, res, db) {
       'last_name = ? ,' +
       'id_number = ? ,' +
       'address = ? ,' +
+      'city_id = ? ,' +
       'email = ? ,' +
       'mobile1 = ? ,' +
       'mobile2 = ? ,' +
@@ -86,6 +89,7 @@ exports.upload = function(req, res, db) {
         customer.last_name,
         customer.id_number,
         customer.address,
+        customer.cityId,
         customer.email,
         customer.mobile1,
         customer.mobile2,
@@ -109,6 +113,7 @@ exports.upload = function(req, res, db) {
       last_name: tmpCustomer.lastName,
       id_number: tmpCustomer.idNumber,
       address: tmpCustomer.address,
+      city_id: tmpCustomer.cityId,
       email: tmpCustomer.email,
       mobile1: tmpCustomer.mobile1,
       mobile2: tmpCustomer.mobile2,
