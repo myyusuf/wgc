@@ -23,7 +23,7 @@ module.exports = function(app, passport, db) {
   app.get('/members', function(req, res) {
     memberData.list(req, res, db);
   });
-  app.post('/members_upload', passport.authenticate('basic', { session: false }), upload.single('photo'), function (req, res, next) {
+  app.post('/members_upload', upload.single('photo'), function (req, res, next) {
     memberData.upload(req, res, db);
   });
   app.get('/members/details/customers', passport.authenticate('basic', { session: false }), function(req, res) {
