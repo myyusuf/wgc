@@ -147,6 +147,7 @@ exports.add = function(req, res, db) {
     last_name: tmpCustomer.lastName,
     id_number: tmpCustomer.idNumber,
     address: tmpCustomer.address,
+    city_id: tmpCustomer.cityId,
     email: tmpCustomer.email,
     mobile1: tmpCustomer.mobile1,
     mobile2: tmpCustomer.mobile2,
@@ -176,6 +177,7 @@ exports.update = function(req, res, db) {
     last_name: req.body.lastName,
     id_number: req.body.idNumber,
     address: req.body.address,
+    city_id: req.body.cityId,
     email: req.body.email,
     mobile1: req.body.mobile1,
     mobile2: req.body.mobile2,
@@ -190,6 +192,7 @@ exports.update = function(req, res, db) {
   'last_name = ? ,' +
   'id_number = ? ,' +
   'address = ? ,' +
+  'city_id = ? ,' +
   'email = ? ,' +
   'mobile1 = ? ,' +
   'mobile2 = ? ,' +
@@ -200,6 +203,7 @@ exports.update = function(req, res, db) {
     customer.last_name,
     customer.id_number,
     customer.address,
+    customer.city_id,
     customer.email,
     customer.mobile1,
     customer.mobile2,
