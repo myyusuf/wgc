@@ -168,3 +168,24 @@ exports.memberGroupList = function(req, res, db) {
     }
   );
 };
+
+exports.changePassword = function(req, res, db) {
+
+  var username = req.user.username;
+
+  db.query(
+  'UPDATE member SET password = ? ' +
+  'WHERE username = ?',
+  [
+    req.body.newPassword,
+    username
+  ],
+  function (err, result) {
+    if(err){
+      console.log(err);
+      res.status(500).send('Error while doing operation.');
+    }else{
+      res.json({status: 'UPDATE_SUCCESS'});
+    }
+  });
+};

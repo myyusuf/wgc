@@ -29,6 +29,9 @@ module.exports = function(app, passport, db) {
   app.get('/members/details/customers', passport.authenticate('basic', { session: false }), function(req, res) {
     memberData.customerList(req, res, db);
   });
+  app.put('/members_cpsw', passport.authenticate('basic', { session: false }), function(req, res) {
+    memberData.changePassword(req, res, db);
+  });
 
   app.get('/cities', function(req, res) {
     memberData.cityList(req, res, db);
