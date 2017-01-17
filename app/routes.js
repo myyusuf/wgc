@@ -50,6 +50,9 @@ module.exports = function(app, passport, db) {
   app.put('/customers/:customerId', passport.authenticate('basic', { session: false }), function(req, res) {
     customerData.update(req, res, db);
   });
+  app.get('/customers/:customerId/images/avatar/temp', function(req, res) {
+    customerData.viewAvatar(req, res, db);
+  });
 
   app.get('/customers/:registrationNumber/units', function(req, res) {
     customerData.unitList(req, res, db);

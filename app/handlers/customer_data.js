@@ -1,3 +1,7 @@
+var WGCConstant = require('../../config/wgc_constant.js');
+var fs = require('fs-extra');
+var path = require('path');
+
 exports.list = function(req, res, db) {
 
   var startIndexStr = req.query.startIndex;
@@ -45,8 +49,8 @@ exports.upload = function(req, res, db) {
 
   tmpCustomer.avatarFileName = req.file.filename;
   tmpCustomer.avatarFileInformation = JSON.stringify(req.file);
-  // var keys = Object.keys(customer);
-  // console.log(keys);
+  var keys = Object.keys(tmpCustomer);
+  console.log(keys);
   // console.log("customer.avatarFileName : " + customer.avatarFileName);
   // keys = Object.keys(req.file);
   // console.log(JSON.stringify(req.file));
@@ -89,7 +93,7 @@ exports.upload = function(req, res, db) {
         customer.last_name,
         customer.id_number,
         customer.address,
-        customer.cityId,
+        customer.city_id,
         customer.email,
         customer.mobile1,
         customer.mobile2,
@@ -274,6 +278,42 @@ exports.unitList = function(req, res, db) {
        );
     }
   );
+
+};
+
+exports.viewAvatar = function (req, res, db) {
+
+    var _customerId = req.params.customerId;
+
+    var query = "SELECT * FROM customer WHERE id = ?";
+
+    db.query(
+      query, [_customerId],
+      function(err, rows) {
+        if (err) throw err;
+        if (rows.length > 0){
+          var _directory = WGCConstant.AVATAR_DIRECTORY_PATH;
+
+          var _fileName = rows[0].avatar_file_name;
+          var _filePath = _directory + '/' + _fileName;
+
+          fs.readFile(_filePath, function (err, content) {
+              if (err) {
+                  res.writeHead(400, {
+                      'Content-type': 'image/jpeg'
+                  })
+                  console.log(err);
+                  res.end("No file found.");
+              } else {
+                  res.end(content);
+              }
+          });
+        }else{
+          res.status(404).send('No image found.');
+        }
+
+      }
+    );
 
 };
 
