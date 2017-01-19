@@ -81,6 +81,9 @@ module.exports = function(app, passport, db) {
   app.get('/units', function(req, res) {
     unitData.list(req, res, db);
   });
+  app.post('/unit_order', passport.authenticate('basic', { session: false }), function (req, res, next) {
+    unitData.unitOrder(req, res, db);
+  });
 
   app.post('/customers_upload', passport.authenticate('basic', { session: false }), upload.single('photo'), function (req, res, next) {
     customerData.upload(req, res, db);
