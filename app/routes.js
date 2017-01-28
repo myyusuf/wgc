@@ -74,6 +74,10 @@ module.exports = function(app, passport, db) {
     productData.unitList(req, res, db);
   });
 
+  app.get('/products/:productCode/benefits', function(req, res) {
+    productData.benefitList(req, res, db);
+  });
+
   // app.post('/customers_upload', function(req, res) {
   //   customerData.upload(req, res, db);
   // });

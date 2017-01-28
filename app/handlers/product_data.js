@@ -55,3 +55,20 @@ exports.viewImage = function (req, res) {
     });
 
 };
+
+exports.benefitList = function(req, res, db) {
+
+  var productCode = req.params.productCode;
+
+  var query = "SELECT pb.* FROM product_benefit pb " +
+  "LEFT JOIN product p on pb.product_id = p.id " +
+  "WHERE p.code = ? "
+
+  db.query(
+    query, [productCode],
+    function(err, rows) {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
+};
