@@ -6,6 +6,7 @@ var promotionData = require('./handlers/promotion_data.js');
 var productData = require('./handlers/product_data.js');
 var unitData = require('./handlers/unit_data.js');
 var newsData = require('./handlers/news_data.js');
+var dashboardData = require('./handlers/dashboard_data.js');
 
 var multer  = require('multer')
 var upload = multer({ dest: WGCConstant.AVATAR_DIRECTORY_PATH })
@@ -98,6 +99,10 @@ module.exports = function(app, passport, db) {
   });
   app.get('/news/images/:imageCode/temp', function(req, res) {
     newsData.viewImage(req, res, db);
+  });
+
+  app.get('/dashboarddata', passport.authenticate('basic', { session: false }), function(req, res) {
+    dashboardData.view(req, res, db);
   });
 
 };
