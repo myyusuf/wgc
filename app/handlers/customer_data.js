@@ -230,10 +230,14 @@ exports.unitList = function(req, res, db) {
 
   var query = "SELECT cu.*, " +
   "c.id AS customer_id, c.first_name, c.last_name, " +
-  "u.id AS unit_id, u.code AS unit_code, u.name AS unit_name, u.unit_type " +
+  "u.id AS unit_id, u.code AS unit_code, u.name AS unit_name, u.unit_type, " +
+  "u.unit_view, u.rooms AS unit_rooms, u.bath_rooms AS unit_bath_rooms, " +
+  "u.area AS unit_area, " +
+  "p.name AS product_name " +
   "FROM customer_unit cu " +
   "LEFT JOIN customer c ON cu.customer_id = c.id " +
   "LEFT JOIN unit u ON cu.unit_id = u.id " +
+  "LEFT JOIN product p ON u.product_id = p.id " +
    "WHERE c.id = ? ";
 
   db.query(
