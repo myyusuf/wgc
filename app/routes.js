@@ -54,7 +54,7 @@ module.exports = function(app, passport, db) {
     customerData.viewAvatar(req, res, db);
   });
 
-  app.get('/customers/:registrationNumber/units', function(req, res) {
+  app.get('/customers/:customerId/units', function(req, res) {
     customerData.unitList(req, res, db);
   });
 

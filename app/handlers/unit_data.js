@@ -27,7 +27,9 @@ exports.unitOrder = function(req, res, db) {
       var customerUnit = {
         customer_id: parseInt(orderData.selectedCustomer),
         unit_id: intVal,
-        status: 1
+        status: 1,
+        progress: 0,
+        order_datetime: new Date()
       };
 
       db.query('INSERT INTO customer_unit SET ?', customerUnit, function(err, result){

@@ -226,56 +226,21 @@ exports.update = function(req, res, db) {
 
 exports.unitList = function(req, res, db) {
 
-  // var startIndexStr = req.query.startIndex;
-  // var limitStr = req.query.limit;
-  // var registrationNumber = req.params.registrationNumber;
-  //
-  // var startIndex = parseInt(startIndexStr);
-  // var limit = parseInt(limitStr);
-  //
-  //
-  // var query = "SELECT u.* FROM customer_unit cu " +
-  //           "LEFT JOIN customer c ON ((cu.customer_id = c.id) AND (c.registration_number = ?)) " +
-  //           "LEFT JOIN unit u ON cu.unit_id = u.id LIMIT ?,? ";
-  //
-  // db.query(
-  //   query, [registrationNumber, startIndex, limit],
-  //   function(err, rows) {
-  //     if (err) throw err;
-  //     res.json(rows);
-  //   }
-  // );
+  var customerId = req.params.customerId;
 
-  var startIndexStr = req.query.startIndex;
-  var limitStr = req.query.limit;
-  var registrationNumber = req.params.registrationNumber + '';
-
-  var startIndex = parseInt(startIndexStr);
-  var limit = parseInt(limitStr);
-
-  var query = "SELECT * FROM customer WHERE registration_number = ? ";
+  var query = "SELECT cu.*, " +
+  "c.id AS customer_id, c.first_name, c.last_name, " +
+  "u.id AS unit_id, u.code AS unit_code, u.name AS unit_name, u.unit_type " +
+  "FROM customer_unit cu " +
+  "LEFT JOIN customer c ON cu.customer_id = c.id " +
+  "LEFT JOIN unit u ON cu.unit_id = u.id " +
+   "WHERE c.id = ? ";
 
   db.query(
-    query, [registrationNumber],
+    query, [customerId],
     function(err, rows) {
       if (err) throw err;
-
-      console.log(registrationNumber);
-       var row = rows[0];
-       var customerId = row['id'];
-
-       var query = "SELECT u.* FROM unit u " +
-                 "LEFT JOIN customer_unit cu ON cu.unit_id = u.id " +
-                 "WHERE cu.customer_id = ? " +
-                 "LIMIT ?,? ";
-
-       db.query(
-         query, [customerId, startIndex, limit],
-         function(err, rows) {
-           if (err) throw err;
-           res.json(rows);
-         }
-       );
+      res.json(rows);
     }
   );
 
