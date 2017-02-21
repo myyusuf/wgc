@@ -3,6 +3,8 @@ var WGCConstant = require('../../config/wgc_constant.js');
 var fs = require('fs-extra');
 var path = require('path');
 
+var flow = require('nimble');
+
 exports.list = function(req, res, db) {
 
   var query = "SELECT * FROM product ";
@@ -11,7 +13,40 @@ exports.list = function(req, res, db) {
     query, [],
     function(err, rows) {
       if (err) throw err;
-      res.json(rows);
+
+      var sqlSeries = [];
+      for(var i=0; i<rows.length; i++){
+
+        //---Closure
+        (function f() {
+          var product = rows[i];
+          var sqlFunction = function(callback){//
+            var query = "SELECT u.*, p.code as project_code FROM unit u LEFT JOIN product p on u.product_id = p.id WHERE p.code = ? ";
+
+            db.query(
+              query, [product.code],
+              function(err, rows2) {
+                if (err) callback(err);
+                product['units'] = rows2;
+                callback();
+              }
+            );
+          }//
+          sqlSeries.push(sqlFunction);
+        })();
+        //----------
+      }
+
+      sqlSeries.push(function(callback){
+        res.json(rows);
+      });
+
+      var errorFunction = function(error){
+        res.status(400).send(error.message);
+      }
+
+      flow.series(sqlSeries, errorFunction);
+
     }
   );
 
