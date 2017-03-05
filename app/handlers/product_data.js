@@ -21,7 +21,7 @@ exports.list = function(req, res, db) {
         (function f() {
           var product = rows[i];
           var sqlFunction = function(callback){//
-            var query = "SELECT u.*, p.code as project_code FROM unit u LEFT JOIN product p on u.product_id = p.id WHERE p.code = ? ";
+            var query = "SELECT u.*, p.code AS project_code, p.name AS project_name FROM unit u LEFT JOIN product p on u.product_id = p.id WHERE p.code = ? ";
 
             db.query(
               query, [product.code],

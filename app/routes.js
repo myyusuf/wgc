@@ -5,6 +5,7 @@ var customerData = require('./handlers/customer_data.js');
 var promotionData = require('./handlers/promotion_data.js');
 var productData = require('./handlers/product_data.js');
 var unitData = require('./handlers/unit_data.js');
+var orderData = require('./handlers/order_data.js');
 var newsData = require('./handlers/news_data.js');
 var dashboardData = require('./handlers/dashboard_data.js');
 
@@ -88,6 +89,10 @@ module.exports = function(app, passport, db) {
   });
   app.post('/unit_order', passport.authenticate('basic', { session: false }), function (req, res, next) {
     unitData.unitOrder(req, res, db);
+  });
+
+  app.post('/order', passport.authenticate('basic', { session: false }), function (req, res, next) {
+    orderData.order(req, res, db);
   });
 
   app.post('/customers_upload', passport.authenticate('basic', { session: false }), upload.single('photo'), function (req, res, next) {
