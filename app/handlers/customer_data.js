@@ -250,6 +250,26 @@ exports.unitList = function(req, res, db) {
 
 };
 
+exports.orderList = function(req, res, db) {
+
+  var customerId = req.params.customerId;
+
+  var query = "SELECT co.*, " +
+  "c.id AS customer_id, c.first_name, c.last_name " +
+  "FROM customer_order co " +
+  "LEFT JOIN customer c ON co.customer_id = c.id " +
+   "WHERE c.id = ? ";
+
+  db.query(
+    query, [customerId],
+    function(err, rows) {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
+
+};
+
 exports.viewAvatar = function (req, res, db) {
 
     var _customerId = req.params.customerId;

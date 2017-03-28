@@ -60,6 +60,10 @@ module.exports = function(app, passport, db) {
     customerData.unitList(req, res, db);
   });
 
+  app.get('/customers/:customerId/orders', function(req, res) {
+    customerData.orderList(req, res, db);
+  });
+
   app.get('/promotion', function(req, res) {
     promotionData.viewImage(req, res, db);
   });
