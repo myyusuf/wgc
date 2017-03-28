@@ -114,6 +114,10 @@ module.exports = function(app, passport, db) {
     dashboardData.view(req, res, db);
   });
 
+  app.get('/marketingdashboarddata', passport.authenticate('basic', { session: false }), function(req, res) {
+    dashboardData.marketingView(req, res, db);
+  });
+
 };
 
 // route middleware to make sure
